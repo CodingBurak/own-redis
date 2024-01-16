@@ -223,15 +223,48 @@ The `CacheHolder` class follows the Singleton pattern and manages instances of t
 
 3. **File System Persistence**: Cache data is persisted to the file system using JSON, allowing data to be loaded from the file system on server restarts.
 
-## Usage
+### Usage
 
 The `RedisCache` and `CacheHolder` classes are essential components of the Redis-like cache server. They handle client-specific caching, TTL-based expiration, and data persistence.
+## parser.py
+
+The `parser.py` file contains the `CommandParser` class, responsible for parsing commands received by the Redis-like cache server. It implements handlers for different types of commands, including simple strings, errors, integers, strings, and arrays.
+
+### Overview
+
+- **File**: `parser.py`
+- **Responsibility**: Parsing commands sent to the cache server.
+- **Dependencies**: None.
+
+### Class
+
+#### 1. CommandParser
+
+The `CommandParser` class is designed to interpret and handle various types of Redis-like commands. It uses different methods to handle different command prefixes, such as `+` for simple strings, `-` for errors, `:` for integers, `$` for strings, and `*` for arrays.
+
+#### Key Methods:
+
+- `parse_command(command)`: Parses the given command and dispatches it to the appropriate handler.
+- `handle_simple_string(input)`: Handles simple string commands.
+- `handle_error(input)`: Handles error commands.
+- `handle_integer(input)`: Handles integer commands.
+- `handle_string(input)`: Handles string commands.
+- `handle_array(input)`: Handles array commands.
+
+### Design
+
+1. **Command Dispatching**: The `CommandParser` uses a dictionary (`command_mappings`) to dispatch commands to specific handler methods based on their prefixes.
+
+2. **Error Handling**: If an unknown command prefix is encountered, the `command_not_found` method is invoked, providing an error message.
+
+### Usage
+
+The `CommandParser` is a crucial component of the Redis-like cache server, responsible for interpreting and directing incoming commands to the appropriate handlers.
+
 
 ## License
 
 This script is part of the Redis-like cache server project and is licensed under the MIT License. See the project's [LICENSE](LICENSE) file for details.
-
-
 
 
 
