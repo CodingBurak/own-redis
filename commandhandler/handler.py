@@ -1,7 +1,7 @@
 from typing import Callable
 
-from command_handler.serializer import SerializorFactory, Serializer
-from command_handler.utils import SIMPLE_STRING
+from commandhandler.serializer import SerializerFactory, Serializer
+from commandhandler.utils import SIMPLE_STRING
 from storage.cache import RedisCache
 
 
@@ -25,11 +25,11 @@ class CommandHandler:
             'config': self.handle_config,
         }
         self.command_mappings = default_handlers
-        self.serializor_factory = SerializorFactory()
+        self.serializor_factory = SerializerFactory()
         self.serializer: Serializer = Serializer()
         self.redis_cache = redis_cache
 
-    def handle_command(self, commands: str):
+    def handle_command(self, commands: list[str]):
         command, *params = commands
         command = command.lower()
         print(f"commands in handle_command {commands}")
@@ -88,9 +88,8 @@ class CommandHandler:
     def handle_set(self, *data):
         key, *value = data
         self.serializer.set_strategy(self.serializor_factory.create_serializor(str))
-        print(f" {key=} and {value=}")
-        return self.serializer.serialize(self.redis_cache.set_key_value(key, value))
-
+        self.redis_cache.set_key_value(key, value)
+        return self.serializer.serialize(f"{SIMPLE_STRING}OK")
     def handle_save(self, _=None):
         try:
             self.redis_cache.save()
