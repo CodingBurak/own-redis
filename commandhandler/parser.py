@@ -1,6 +1,6 @@
 from typing import Callable
 
-from command_handler.utils import split_by_CRLF
+from commandhandler.utils import split_by_CRLF
 
 
 class CommandParser:
